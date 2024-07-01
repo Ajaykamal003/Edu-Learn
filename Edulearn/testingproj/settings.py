@@ -8,6 +8,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'app',
+    'app2',
+    'app3',
+    'app4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

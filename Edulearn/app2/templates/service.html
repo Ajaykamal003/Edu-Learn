@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDULEARN - Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .navbar {
+            background-color: #7a6ad8;
+            overflow: hidden;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 14px 20px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .navbar li {
+            float: left;
+        }
+        .navbar a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #5750a5;
+        }
+        .container {
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .service-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .service-card img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .service-card h3 {
+            color: #7a6ad8;
+            margin-bottom: 10px;
+        }
+        .service-card p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="logo">EDULEARN</a>
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'course_list' %}">Home</a></li>
+            {% else %}
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% endif %}
+            <li><a href="{% url 'subject' %}">Courses</a></li>
+            <li><a href="{% url 'team' %}">Team</a></li>
+            <li><a href="{% url 'register' %}">Register Now!</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="service-card">
+            <img src="{% static 'assets/images/course-01.jpg' %}" alt="Online Degrees">
+            <h3>Online Degrees</h3>
+            <p>Whenever you need free templates in HTML CSS, you just remember TemplateMo website.</p>
+        </div>
+        <div class="service-card">
+            <img src="{% static 'assets/images/course-02.jpg' %}" alt="Short Courses">
+            <h3>Short Courses</h3>
+            <p>You can browse free templates based on different tags such as digital marketing, etc.</p>
+        </div>
+        <div class="service-card">
+            <img src="{% static 'assets/images/course-03.jpg' %}" alt="Web Experts">
+            <h3>Web Experts</h3>
+            <p>You can start learning HTML CSS by modifying free templates from our website too.</p>
+        </div>
+    </div>
+
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/animation.js' %}"></script>
+    <script src="{% static 'assets/js/imagesloaded.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+</body>
+</html>

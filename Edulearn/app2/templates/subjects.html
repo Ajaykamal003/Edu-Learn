@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edulearn</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .navbar {
+            background-color: #7a6ad8;
+            overflow: hidden;
+            padding: 15px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .navbar li {
+            float: left;
+        }
+        .navbar a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #5750a5;
+        }
+        .container {
+            padding: 20px;
+        }
+        .course-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .course-item {
+            background-color: white;
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .course-item h3 {
+            margin: 0 0 10px;
+            color: #7a6ad8;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a class="nav-link" href="{% url 'course_list' %}">Home</a></li>
+            {% else %}
+            <li><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+            {% endif %}
+            <li><a href="{% url 'subject' %}">Courses</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h1>Our Courses</h1>
+        <ul class="course-list">
+            <li class="course-item">
+                <h3>Introduction to HTML</h3>
+                <p>Learn the basics of HTML, the fundamental building block of the web.</p>
+            </li>
+            <li class="course-item">
+                <h3>CSS for Beginners</h3>
+                <p>Start designing beautiful web pages with CSS.</p>
+            </li>
+            <li class="course-item">
+                <h3>JavaScript Essentials</h3>
+                <p>Understand the core concepts of JavaScript and how to use it to enhance web pages.</p>
+            </li>
+            <li class="course-item">
+                <h3>Responsive Web Design</h3>
+                <p>Make your web pages look great on all devices with responsive design techniques.</p>
+            </li>
+            <li class="course-item">
+                <h3>PHP and MySQL</h3>
+                <p>Learn to build dynamic websites and manage databases with PHP and MySQL.</p>
+            </li>
+            <li class="course-item">
+                <h3>Python for Web Development</h3>
+                <p>Use Python to develop powerful web applications.</p>
+            </li>
+            <li class="course-item">
+                <h3>React Basics</h3>
+                <p>Get started with React, a popular JavaScript library for building user interfaces.</p>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

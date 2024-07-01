@@ -1,0 +1,362 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edulearn</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .navbar {
+            background-color: #7a6ad8; 
+            padding: 35px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; 
+            position: relative; 
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin-right: auto; 
+        }
+
+        .navbar-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar-links li {
+            margin-right: 40px;
+        }
+
+        .navbar-links li:last-child {
+            margin-right: 80px;
+        }
+
+        .navbar-links li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .progress-label {
+            margin-right: 20px; 
+        }
+
+        .profile-container {
+            position: absolute; 
+            top: 27px;
+            right: 40px;
+        }
+
+        .profile-icon {
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%;
+            background: url("{% static 'images1/teamwork.png' %}") no-repeat center center;
+            background-size: cover;
+            position: absolute; 
+            top: 5px; 
+            right:-29px;
+        }
+
+        .circular-progress {
+            width: 60px; 
+            height: 60px; 
+            position: absolute;
+            top: 0px; 
+            left: -6px;
+        }
+
+        .circular-progress circle {
+            fill: none;
+            stroke-width: 4; 
+        }
+
+        .circular-progress .background {
+            stroke: #f0f0f0;
+        }
+
+        .circular-progress .progress {
+            stroke: #000000;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.3s;
+        }
+
+        #content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .video-container {
+            margin-bottom: 30px;
+        }
+
+        #sidebar-toggle {
+            position: absolute;
+            left: 7px;
+            top: 27px;
+            z-index: 1000;
+            cursor: pointer;
+            font-size: 30px;
+        }
+
+        #sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #f1f1f1;
+            transition: 0.3s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar h2 {
+            padding: 10px;
+            margin: 0;
+        }
+
+        #video-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #video-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #video-list li:hover {
+            background-color: #ddd;
+        }
+
+        #main-content {
+            transition: margin-left 0.3s;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #main-content.active {
+            margin-left: 250px;
+        }
+
+        #video-container {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .course-image-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .course-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .course-description {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .ratings-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .star-rating {
+            font-size: 24px;
+            color: #ffd700;
+        }
+
+        .rating-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .rating-box p {
+            margin: 5px 0;
+        }
+
+        .tutor-info {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #rate-course-toggle {
+            cursor: pointer;
+            color: black;
+            margin-top: 20px;
+        }
+
+        #rate-course-toggle:hover {
+            text-decoration: underline;
+        }
+
+        #rating-form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-title">EduLearn</div>
+        <ul class="navbar-links">
+            <li><a href="{% url 'course_list' %}">Home</a></li>
+            <li><a href="{% url 'messenger' %}">Contact</a></li>
+            {% if first_quiz %}
+                <li><a href="{% url 'quiz_detail' course_id=course.id quiz_id=first_quiz.id %}">Quizzes</a></li>
+            {% else %}
+                <li>No quizzes available</li>
+            {% endif %}
+        </ul>
+    </nav>    
+    <div id="main-content">
+        <h1>{{ course.title }}</h1>
+        
+        <div class="course-image-container">
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-image">
+        </div>
+        
+        <div class="course-description">
+            <p>{{ course.description }}</p>
+        </div>
+        
+        <p class="tutor-info">Taught by: {{ course.instructor.user.username }}</p>
+
+        <input type="hidden" id="course-id" value="{{ course.id }}">
+
+        {% if user.is_authenticated %}
+            {% if enrolled %}
+                <a href="{% url 'course_content' course.id %}" class="button">Content</a>
+            {% else %}
+                <a href="{% url 'enroll_course' course.id %}" class="button">Enroll in Course</a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}?next={{ request.path }}" class="button">Login to Enroll</a>
+        {% endif %}
+        
+        <div class="ratings-container">
+            <h3>Course Ratings</h3>
+            {% for rating in ratings %}
+                <div class="rating-box">
+                    <p>{{ rating.student.user.first_name }} {{ rating.student.user.last_name }}</p>
+
+                    <div class="star-rating">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= rating.rating %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p>{{ rating.comment }}</p>
+                </div>
+            {% empty %}
+                <p>No ratings yet. Be the first to rate this course!</p>
+            {% endfor %}
+        </div>
+
+        {% if user.is_authenticated and enrolled %}
+            <h3 id="rate-course-toggle">Rate this Course</h3>
+            <div id="rating-form-container" style="display: none;">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ rating_form.as_p }}
+                    <button type="submit" class="button">Submit Rating</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            function updateCircularProgress(progress) {
+                var radius = 15;
+                var circumference = 2 * Math.PI * radius;
+                var offset = circumference - (progress / 100 * circumference);
+    
+                $(".circular-progress .progress").css({
+                    'stroke-dasharray': circumference,
+                    'stroke-dashoffset': offset
+                });
+            }
+    
+            var progress = {{ progress.progress }};
+            updateCircularProgress(progress);
+
+            // Toggle rating form
+            $("#rate-course-toggle").click(function() {
+                $("#rating-form-container").slideToggle();
+            });
+        });
+    </script>
+</body>
+</html>

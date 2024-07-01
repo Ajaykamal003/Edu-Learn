@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Course</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('path/to/your/background-image.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .navbar {
+            background-color: #7a6ad8;
+            padding: 15px 0;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .form-container {
+            flex: 2;
+            padding: 30px;
+        }
+
+        .existing-courses {
+            flex: 1;
+            padding: 30px;
+            background-color: #f8f9fa;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #7a6ad8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6a5ac8;
+        }
+
+        .course-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-item a {
+            color: #7a6ad8;
+            text-decoration: none;
+        }
+
+        .course-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" style="font-weight: bold; font-size: 20px;">EduLearn</a>
+            <div>
+                <a href="{% url 'tutorcourse' %}">Home</a>
+                <a href="{% url 'profile' %}">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="form-container">
+            <h1>Edit Course</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="title">Title:</label>
+                {{ course_form.title }}
+
+                <label for="description">Description:</label>
+                {{ course_form.description }}
+
+                <label for="instructor">Instructor:</label>
+                {{ course_form.instructor }}
+
+                <label for="category">Category:</label>
+                {{ course_form.category }}
+
+                <label for="image">Image:</label>
+                {% if has_image %}
+                <p>
+                    Image: Currently: {{ course_form.image.value.url }}
+                    <input type="checkbox" name="{{ course_form.image.name }}-clear" id="{{ course_form.image.id }}_clear">
+                    <label for="{{ course_form.image.id }}_clear">Clear</label>
+                </p>
+                {% else %}
+                <p>No image currently associated with this course.</p>
+                {% endif %}
+                <p>Change: {{ course_form.image }}</p>
+
+                <h2>Videos</h2>
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    <div class="video-form">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+
+        <div class="existing-courses">
+            <h2>Existing Courses</h2>
+            {% for course in existing_courses %}
+                <div class="course-item">
+                    <span>{{ course.title }}</span>
+                    <a href="{% url 'edit_course' course.id %}">Edit</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

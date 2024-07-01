@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Success!!!!</title>
+  <link rel="shortcut icon" type="image/png" href="../../static/asset1/images/logos/myfavicon.png" />
+  <link rel="stylesheet" href="../../static/assets1/css/styles.min.css" />
+  <style>
+    .success-card {
+      background: #e9f7ef;
+      border: 1px solid #d4edda;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      color: #28a745;
+      margin-bottom: 1rem;
+    }
+
+    .success-text {
+      color: #155724;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div
+      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-9 col-lg-6 col-xxl-3">
+            <div class="card mb-0 success-card">
+              <div class="card-body text-center">
+                <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                  <img src="../../static/assets1/images/logos/logo.png" width="180" alt="">
+                </a>
+                <div class="success-icon">
+                  &#x2714;
+                </div>
+                <h3 class="success-text">{{ msg }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../static/assets1/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../../static/assets1/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

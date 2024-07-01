@@ -1,0 +1,361 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edulearn</title>
+    <meta name="description" content="Browse our available courses and enhance your skills.">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #f4f4f4;
+        }
+
+        a {
+            text-decoration: none;
+            color: #7a6ad8;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            background-color: #7a6ad8;
+            box-shadow: 0 2px 4px #f1eded1a;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            margin-left: 30px;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white; /* Change link color to white */
+        }
+
+        .search-bar {
+            position: relative;
+            margin-right: 20px;
+            width: 300px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #7a6ad8;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            background-color: #11a7fd;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .actions .profile-icon {
+            width: 30px;
+            height: 30px;
+            background-image: url("{% static 'images1/user.png' %}"); /* this one */
+            background-size: cover;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .start-learning {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .start-learning h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .start-learning p {
+            font-size: 1.2rem;
+            color: #777;
+            margin-bottom: 40px;
+        }
+
+        .swiper-container {
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 100%;
+            height: 600px;
+            position: relative;
+        }
+
+        .swiper-slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
+            z-index: 1;
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+            width: 80%;
+        }
+
+        .slide-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide-content p {
+            font-size: 1.5rem;
+        }
+
+        .courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .course-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .course-info h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .course-info p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .course-info a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #7a6ad8;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .course-info a:hover {
+            background-color: #5949a8;
+        }
+
+        .footer {
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: #333;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="color: white;">Edulearn</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'course_list' %}">Home</a></li>
+                <li><a href="{% url 'subject' %}">Courses</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'messenger' %}">Contact</a></li>
+            </ul>
+            <div class="search-bar">
+                <input type="text" id="course-search" placeholder="Search for courses...">
+                <button onclick="searchCourses()">Search</button>
+            </div>
+            <div class="actions">
+                <div class="profile-icon" onclick="location.href='{% url 'profile' %}'"></div>
+            </div>
+        </nav>
+    </header>
+
+    
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for course in courses %}
+            <div class="swiper-slide" style="background-image: url('{{ course.image.url }}');">
+                <div class="slide-content">
+                    <h2>{{ course.title }}</h2>
+                    <p>{{ course.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <main>
+        <section class="start-learning">
+            <h2>Available Courses</h2>
+            <p>Enhance your skills with our wide range of courses. Find the perfect one for you below.</p>
+        </section>
+        <section class="courses">
+            {% if courses %}
+                {% for course in courses %}
+                <div class="course-card">
+                    {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                    {% endif %}
+                    <div class="course-info">
+                        <h3>{{ course.title }}</h3>
+                        <p>{{ course.description|truncatewords:20 }}</p>
+                        <a href="{% url 'course_detail' course.id %}">View Details</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No courses available at the moment. Please check
+
+                <p>No courses available at the moment. Please check back later.</p>
+            {% endif %}
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Edulearn. All rights reserved.</p>
+    </footer>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        function searchCourses() {
+            const searchQuery = document.getElementById('course-search').value.toLowerCase();
+            const courseCards = document.querySelectorAll('.course-card');
+
+            courseCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(searchQuery) || description.includes(searchQuery)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edulearn</title>
+</head>
+<body>
+    <header>
+        <h1>My Course Site</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'course_list' %}">Courses</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>Update Progress for {{ course.title }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update Progress</button>
+        </form>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Edulearn Site</p>
+    </footer>
+</body>
+</html>

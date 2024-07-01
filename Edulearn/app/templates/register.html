@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('{% static "images1/Mountain.jpeg" %}');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+        }
+
+        .submit-btn {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .login-link {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .login-link:hover {
+            color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="form-container">
+            <h2 class="text-center mb-4">Sign Up</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username"></label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter last name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password1" name="password1" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+            <p>If You Have An Account Login <a href="{% url 'login' %}" class="login-link">Here</a></p>
+            <p>If You Are A Tutor Login <a href="{% url 'login_tutor' %}" class="login-link">Here</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edulearn</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+            font-family: Arial, sans-serif;
+        }
+        .result-wrap {
+            width: 600px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4c93ba;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-wrap">
+        <h1>Course Results</h1>
+        <p>You have answered {{ total_correct }} out of {{ total_questions }} correctly.</p>
+        <p><a href="{% url 'course_detail' course.id %}">Back to Course</a></p>
+    </div>
+</body>
+</html>

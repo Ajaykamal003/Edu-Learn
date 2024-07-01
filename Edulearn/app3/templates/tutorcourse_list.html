@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edulearn</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        
+
+        .navbar {
+            background-color: #7a6ad8;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-create-course {
+            margin-left: auto;
+        }
+
+        @media (max-width: 576px) {
+            .btn-create-course {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        
+        .card {
+            height: 100%;
+        }
+
+        
+        .card-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        .card-text {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">EduLearn</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="{% url 'createcourse' %}" class="btn btn-primary btn-create-course">Create Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center mt-5 mb-4">Available Courses</h1>
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    {% if course.image_url %}
+                        <img src="{{ course.image_url }}" class="card-img-top" alt="{{ course.title }}">
+                    {% else %}
+                    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 225px;">No Image</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text">{{ course.description }}</p>
+                        <a href="{% url 'tutorcourse_details' course.id %}" class="btn btn-primary btn-block">View Details</a>
+                        <a href="{% url 'create_quiz' course.id %}" class="btn btn-primary btn-block">Create Quiz</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

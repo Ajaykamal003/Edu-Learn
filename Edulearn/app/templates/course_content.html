@@ -1,0 +1,351 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edulearn</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .navbar {
+            background-color: #7a6ad8; 
+            padding: 35px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; 
+            position: relative; 
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            margin-right: auto; 
+        }
+
+        .navbar-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar-links li {
+            margin-right: 40px;
+        }
+
+        .navbar-links li:last-child {
+            margin-right: 80px;
+        }
+
+        .navbar-links li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .progress-label {
+            margin-right: 20px; 
+        }
+
+        .profile-container {
+            position: absolute; 
+            top: 27px;
+            right: 40px;
+        }
+
+        .profile-icon {
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%;
+            background: url("{% static 'images1/teamwork.png' %}") no-repeat center center;
+            background-size: cover;
+            position: absolute; 
+            top: 5px; 
+            right:-29px;
+        }
+
+        .circular-progress {
+            width: 60px; 
+            height: 60px; 
+            position: absolute;
+            top: 0px; 
+            left: -6px;
+        }
+
+        .circular-progress circle {
+            fill: none;
+            stroke-width: 4; 
+        }
+
+        .circular-progress .background {
+            stroke: #f0f0f0;
+        }
+
+        .circular-progress .progress {
+            stroke: #000000;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.3s;
+        }
+
+        #content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .video-container {
+            margin-bottom: 30px;
+        }
+
+        #sidebar-toggle {
+            position: absolute;
+            left: 7px;
+            top: 27px;
+            z-index: 1000;
+            cursor: pointer;
+            font-size: 30px;
+        }
+
+        #sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #f1f1f1;
+            transition: 0.3s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar h2 {
+            padding: 10px;
+            margin: 0;
+        }
+
+        #video-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #video-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #video-list li:hover {
+            background-color: #ddd;
+        }
+
+        #main-content {
+            transition: margin-left 0.3s;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #main-content.active {
+            margin-left: 250px;
+        }
+
+        #video-container {
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-title">EduLearn</div>
+        <ul class="navbar-links">
+            <li><a href="{% url 'course_list' %}">Home</a></li>
+            <li><a href="{% url 'messenger' %}">Contact</a></li>
+            {% if first_quiz %}
+                <li><a href="{% url 'quiz_detail' course_id=course.id quiz_id=first_quiz.id %}">Quizzes</a></li>
+            {% else %}
+                <li>No quizzes available</li>
+            {% endif %}
+        </ul>
+        <div class="progress-label">Your Progress</div>
+        <div class="profile-container">
+            <svg class="circular-progress">
+                <circle class="background" cx="20" cy="20" r="18"></circle> 
+                <circle class="progress" cx="20" cy="20" r="18"></circle> 
+            </svg>
+            <div class="profile-icon"></div>
+        </div>
+    </nav>
+
+    <div id="sidebar-toggle">&#9776;</div>
+    <div id="sidebar">
+        <ul id="video-list">
+            {% for video in videos %}
+                <li data-video-id="{{ video.id }}" data-video-title="{{ video.title }}" data-video-url="{{ video.file.url }}">{{ video.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div id="main-content">
+        <h1>{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
+        
+        <div id="video-container">
+            {% if videos %}
+                <h3 id="current-video-title">{{ videos.0.title }}</h3>
+                <video id="current-video" controls>
+                    <source id="current-video-source" src="{{ videos.0.file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% else %}
+                <p>No videos available for this course.</p>
+            {% endif %}
+        </div>
+    
+        <input type="hidden" id="course-id" value="{{ course.id }}">
+    
+        <p>Progress: <span id="progress-percentage">{{ progress.progress }}</span>%</p>
+        <a href="{% url 'update_progress' course.id %}" class="button" id="update-progress-button">Update Progress</a>
+        <a href="{% url 'certificate' course.id %}" class="button" id="certificate-button" style="display: none;">Download Certificate</a>
+    </div>
+    <script>
+        $(document).ready(function() {
+            function updateCircularProgress(progress) {
+                var radius = 18;
+                var circumference = 2 * Math.PI * radius;
+                var offset = circumference - (progress / 100 * circumference);
+    
+                $(".circular-progress .progress").css({
+                    'stroke-dasharray': circumference,
+                    'stroke-dashoffset': offset
+                });
+    
+                $("#progress-percentage").text(Math.round(progress));
+    
+                if (progress >= 100) {
+                    $("#update-progress-button").hide();
+                    $("#certificate-button").show();
+                } else {
+                    $("#update-progress-button").show();
+                    $("#certificate-button").hide();
+                }
+            }
+    
+            var progress = {{ progress.progress|default:0 }};
+            updateCircularProgress(progress);
+    
+            $("#sidebar-toggle").click(function() {
+                $("#sidebar").toggleClass("active");
+                $("#main-content").toggleClass("active");
+            });
+    
+            $("#video-list li").click(function() {
+                var videoId = $(this).data("video-id");
+                var videoTitle = $(this).data("video-title");
+                var videoUrl = $(this).data("video-url");
+    
+                $("#current-video-title").text(videoTitle);
+                $("#current-video-source").attr("src", videoUrl);
+                $("#current-video").attr("data-video-id", videoId);
+                $("#current-video")[0].load();
+    
+                setupVideoEventListeners();
+            });
+    
+            if ($("#video-list li").length > 0) {
+                $("#video-list li:first").click();
+            }
+    
+            function setupVideoEventListeners() {
+                var video = $("#current-video")[0];
+                var courseId = $("#course-id").val();
+                var videoId = $("#current-video").attr("data-video-id");
+                var lastUpdateTime = 0;
+                var updateInterval = 5; 
+    
+                video.addEventListener('timeupdate', function() {
+                    var currentTime = Math.floor(video.currentTime);
+                    if (currentTime - lastUpdateTime >= updateInterval) {
+                        updateVideoProgress(courseId, videoId, (currentTime / video.duration) * 100);
+                        lastUpdateTime = currentTime;
+                    }
+                });
+    
+                video.addEventListener('ended', function() {
+                    updateVideoProgress(courseId, videoId, 100);
+                });
+            }
+    
+            function updateVideoProgress(courseId, videoId, videoProgress) {
+                $.ajax({
+                    url: `/update_video_progress/${courseId}/${videoId}/`,
+                    type: "POST",
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'progress': videoProgress
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            updateCircularProgress(response.progress);
+                        }
+                    }
+                });
+            }
+    
+            setupVideoEventListeners();
+    
+            $("#update-progress-button").click(function(e) {
+                e.preventDefault();
+                var courseId = $("#course-id").val();
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: "POST",
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            updateCircularProgress(response.progress);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

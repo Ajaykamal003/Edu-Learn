@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url("../../static/images1/vintage_bulb-1366x768.jpg"); 
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8); 
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%; 
+            max-width: 600px;
+            text-align: center;
+            max-height: 80%; 
+            overflow-y: auto; 
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #2980b9;
+        }
+        .no-quizzes {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quizzes for {{ course.title }}</h1>
+        <ul>
+            {% for quiz in quizzes %}
+            <li><a href="{% url 'error' %}">{{ quiz.title }}</a></li>
+            {% empty %}
+            <li class="no-quizzes">No quizzes available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

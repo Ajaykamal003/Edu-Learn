@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-         body {
+               body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f8f8f8;
@@ -243,15 +243,11 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
-
         #rate-course-toggle {
             cursor: pointer;
-            color: black;
-            margin-top: 20px;
-        }
-
-        #rate-course-toggle:hover {
+            color: blue;
             text-decoration: underline;
+            margin-top: 20px;
         }
 
         #rating-form-container {
@@ -261,6 +257,7 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
         }
     </style>
 </head>
@@ -325,9 +322,9 @@
         </div>
 
         {% if user.is_authenticated and enrolled %}
-            <h3 id="rate-course-toggle">Rate this Course</h3>
-            <div id="rating-form-container" style="display: none;">
-                <form method="POST" action="">
+            <div id="rate-course-toggle">Rate this Course</div>
+            <div id="rating-form-container">
+                <form method="POST" action="{% url 'rate_course' course.id %}">
                     {% csrf_token %}
                     {{ rating_form.as_p }}
                     <button type="submit" class="button">Submit Rating</button>
@@ -337,7 +334,10 @@
     </div>
     
     <script>
+        console.log("Script start");
         $(document).ready(function() {
+            console.log("Document ready");
+
             function updateCircularProgress(progress) {
                 var radius = 15;
                 var circumference = 2 * Math.PI * radius;
@@ -349,14 +349,22 @@
                 });
             }
     
-            var progress = {{ progress.progress }};
+            var progress = {{ progress.progress|default:0 }};
             updateCircularProgress(progress);
 
             // Toggle rating form
-            $("#rate-course-toggle").click(function() {
+            $("#rate-course-toggle").on('click', function() {
+                console.log("Toggle clicked");
                 $("#rating-form-container").slideToggle();
             });
+
+            // Check if elements exist
+            console.log("Toggle element exists:", $("#rate-course-toggle").length > 0);
+            console.log("Form container exists:", $("#rating-form-container").length > 0);
         });
+
+        // Log jQuery version
+        console.log("jQuery version:", $.fn.jquery);
     </script>
 </body>
 </html>

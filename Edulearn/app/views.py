@@ -10,7 +10,6 @@ from .models import Rating,  Student, Course, Enrollment, Progress, Certificate,
 from .forms import  RatingForm, UserRegistrationForm,   ReviewForm 
 from django.http import  JsonResponse
 from .utils import generate_certificate
-from app.forms import ReviewForm
 from django.views.generic.edit import FormView
 from django.shortcuts import render,redirect
 
@@ -209,6 +208,32 @@ def update_progress(request, course_id):
     return JsonResponse(response_data)
 
 
+
+@login_required
+def rate_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.course = course
+            rating.student = request.user.student  
+            rating.save()
+            return redirect('course_detail', course_id=course.id)
+    else:
+        form = RatingForm()
+
+    context = {
+        'course': course,
+        'rating_form': form,
+    }
+    return render(request, 'course_detail.html', context)
+
+
+
+
+
+
 class ReviewEmailView(FormView):
     template_name = 'message.html'
     form_class = ReviewForm
@@ -216,6 +241,9 @@ class ReviewEmailView(FormView):
     def form_valid(self, form):
         form.send_email()
         return redirect('alert')
+   
+
+
    
 def alertView(request):
     msg = "Thanks For Your Review"

@@ -9,6 +9,15 @@ def home(request):
     context = {}
     return render(request, 'index.html', context)
 
+def onlinedg(request):
+    return render(request, 'onlinedegree.html')
+
+def shortc(request):
+    return render(request, 'shortcourse.html')
+
+def webe(request):
+    return render(request, 'webexpert.html')
+
 def subject(request):
     context = {}
     return render(request,'subjects.html', context)

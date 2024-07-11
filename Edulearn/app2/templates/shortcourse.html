@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edulearn </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: #7a6ad8;
+            padding: 1em;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 1em;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 2em;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" style="font-weight: bold;">Edulearn</a>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'register' %}">Login</a>
+    </nav>
+    <div class="content">
+        <h1>Short Course</h1>
+        <p>Explore our diverse range of Short Courses designed to provide you with targeted knowledge and skills in a short period. Whether you're looking to upskill, reskill, or simply explore a new area of interest, our short courses offer a flexible and convenient way to learn. With topics ranging from digital marketing and data analysis to creative writing and personal development, there's something for everyone. Each course is crafted by industry experts and includes practical assignments to help you apply what you've learned immediately.</p>
+        <p>Our short courses are designed with busy professionals in mind, offering bite-sized learning modules that fit into your schedule. You can start at any time and progress at your own pace, making it easy to balance learning with other commitments. In addition to online materials, you'll have access to a community of learners and instructors who can provide support and feedback. Enroll today and start your journey towards personal and professional growth.</p>
+    </div>
+</body>
+</html>
